@@ -1,0 +1,40 @@
+name: Bug Report
+description: 报告部署或运维问题，请先脱敏
+body:
+  - type: markdown
+    attributes:
+      value: |
+        不要粘贴密钥、邮箱、授权 JSON、完整 .env、数据库、原始日志或真实 IP。
+        安全漏洞请按 SECURITY.md 私下报告，不要在公开 Issue 中发布利用细节。
+  - type: input
+    id: version
+    attributes:
+      label: 脚本版本
+      placeholder: 2.44-oss.1
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 系统、架构与内存
+      placeholder: Debian 12 / amd64 / 2 GiB
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤与预期结果
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: 已脱敏的错误输出
+      render: text
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私确认
+      options:
+        - label: 我已移除密钥、邮箱、真实 IP 和其他个人信息
+          required: true
