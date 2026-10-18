@@ -35,7 +35,7 @@
 
 ## 建议的 GitHub 简介
 
-> Debian/Ubuntu 上的 CPA/CPAMP 部署与运维工具，集成校验更新、分层连接准入、资源保护、数据库维护和静态只读状态页。
+> 面向 Debian/Ubuntu 的 CPA/CPAMP 一键部署与运维脚本：中文菜单、校验更新、日志与安全管理、数据库维护、并发准入与资源保护、公网只读 Dashboard。
 
 可用 Topics：`bash`、`linux`、`debian`、`ubuntu`、`systemd`、`caddy`、`self-hosted`、`deployment`、`cli-proxy-api`、`observability`。
 

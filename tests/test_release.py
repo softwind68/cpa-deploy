@@ -46,6 +46,40 @@ def load_scanner():
 
 
 class ReleaseTests(unittest.TestCase):
+    def test_readme_menus_match_script(self):
+        source = SOURCE.read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        documented = [
+            [" ".join(line.split()) for line in block.splitlines()
+             if re.match(r"^\s*\d+\.\s+", line)]
+            for block in re.findall(r"```text\n(.*?)```", readme, re.S)
+        ]
+        menus = (
+            "show_menu", "deployment_menu", "log_cleanup_menu",
+            "fail2ban_management_menu", "fail2ban_whitelist_menu",
+            "cpamp_maintenance_menu", "public_status_menu",
+            "public_status_quota_menu", "public_status_quota_refresh_settings",
+            "admission_menu",
+        )
+        for name in menus:
+            with self.subTest(menu=name):
+                match = re.search(rf"^{name}\(\) \{{\n(.*?)^\}}$", source, re.M | re.S)
+                self.assertIsNotNone(match, name)
+                body = re.split(
+                    r"^\s*(?:if ! )?read -r -p ", match.group(1), maxsplit=1, flags=re.M,
+                )[0]
+                labels = []
+                for line in body.splitlines():
+                    line = line.strip()
+                    if line.startswith("printf '") and line.endswith("'"):
+                        line = line[len("printf '"):-1].replace(r"\n", "\n")
+                    labels.extend(
+                        " ".join(label.split()) for label in line.splitlines()
+                        if re.match(r"^\s*\d+\.\s+", label)
+                    )
+                self.assertTrue(labels, name)
+                self.assertIn(labels, documented, f"README menu is out of sync: {name}")
+
     def test_source_encoding(self):
         raw = SOURCE.read_bytes()
         self.assertNotIn(b"\r", raw)
